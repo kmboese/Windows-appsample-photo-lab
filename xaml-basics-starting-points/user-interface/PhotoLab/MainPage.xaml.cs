@@ -82,9 +82,13 @@ namespace PhotoLab
                 // Limit to only png or jpg files.
                 if (file.ContentType == "image/png" || file.ContentType == "image/jpeg")
                 {
+                    //Images.Add(await LoadImageInfo(file));
                     Images.Add(await LoadImageInfo(file));
                 }
             }
+
+            // Populate the new ImageGridView with the loaded images
+            ImageGridView.ItemsSource = Images;
         }
 
        public async static Task<ImageFileInfo> LoadImageInfo(StorageFile file)
@@ -120,5 +124,10 @@ namespace PhotoLab
             }
         }
         private double _itemSize;
+
+        private void TextBlock_SelectionChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+
+        }
     }
 }
