@@ -35,6 +35,28 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <!--  Button flyouts  -->
+        <Flyout x:Key="zoomFlyout">
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="Margin" Value="0,2" />
+                    </Style>
+                </StackPanel.Resources>
+                <Slider
+                    x:Name="ZoomSlider"
+                    Width="100"
+                    Margin="0,5,0,0"
+                    Maximum="5"
+                    Minimum="0.1"
+                    StepFrequency="0.1"
+                    Value="1" />
+                <!--  > ValueChanged="ZoomSlider_ValueChanged" />  -->
+                <!--> <Button Click="{x:Bind FitToScreen}" Content="Fit to screen" /> -->
+                <!--> <Button Click="{x:Bind ShowActualSize}" Content="Show actual size" /> -->
+            </StackPanel>
+        </Flyout>
         <!--  Add the DataTemplate and style Setters here  -->
 
         <DataTemplate x:Key="ImageGridView_DefaultItemTemplate" x:DataType="local:ImageFileInfo">
@@ -201,6 +223,42 @@
             SelectionChanged="TextBlock_SelectionChanged"
             Style="{StaticResource TitleTextBlockStyle}"
             Text="Collection" />
+
+        <CommandBar
+            x:Name="MainCommandBar"
+            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+            DefaultLabelPosition="Right"
+            OverflowButtonVisibility="Collapsed"
+            RelativePanel.AlignRightWithPanel="True">
+            <!--  Zoom button  -->
+            <AppBarButton
+                Flyout="{StaticResource zoomFlyout}"
+                Icon="Zoom"
+                Label="Zoom" />
+            <!--  Temporary Delete button to showcase Observable binding updates  -->
+            <AppBarButton
+                Click="{x:Bind MoveImageBack}"
+                Icon="Back"
+                Label="Move Back" />
+            <AppBarButton
+                Click="{x:Bind MoveImageForward}"
+                Icon="Forward"
+                Label="Move Forward" />
+            <AppBarButton
+                Click="{x:Bind DeletedSelectedImage}"
+                Icon="Remove"
+                Label="Delete selected image" />
+            <AppBarButton
+                Click="{x:Bind ReadImages}"
+                Icon="Folder"
+                Label="Read in images" />
+            <AppBarButton
+                Click="{x:Bind DeleteAllImages}"
+                Icon="Delete"
+                Label="Delete all images" />
+
+        </CommandBar>
+
         <GridView
             x:Name="ImageGridView"
             Margin="0,0,0,8"
@@ -208,6 +266,7 @@
             ItemContainerStyle="{StaticResource ImageGridView_DefaultItemContainerStyle}"
             ItemTemplate="{StaticResource ImageGridView_DefaultItemTemplate}"
             ItemsPanel="{StaticResource ImageGridView_ItemsPanelTemplate}"
+            ItemsSource="{x:Bind Images}"
             RelativePanel.AlignLeftWithPanel="True"
             RelativePanel.AlignRightWithPanel="True"
             RelativePanel.Below="TitleTextBlock" />
