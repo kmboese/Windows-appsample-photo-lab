@@ -43,7 +43,40 @@ namespace PhotoLab
             ImageFile = imageFile;
             var rating = (int)properties.Rating;
             var random = new Random();
-            ImageRating = rating == 0 ? random.Next(1, 5) : rating;
+
+            // Custom rating code needed
+            if (rating == 0)
+            {
+                ImageRating = random.Next(1, 5);
+            }
+            else if (rating <= 5)
+            {
+                ImageRating = rating;
+            }
+            // Image on 25-99 scale
+            else
+            {
+                switch (rating)
+                {
+                    case 99:
+                        rating = 5;
+                        break;
+                    case 75:
+                        rating = 4;
+                        break;
+                    case 50:
+                        rating = 3;
+                        break;
+                    case 25:
+                        rating = 2;
+                        break;
+                    default:
+                        rating = random.Next(1, 5);
+                        break;
+                }
+            }
+
+            //ImageRating = rating == 0 ? random.Next(1, 5) : rating;
         }
 
         public StorageFile ImageFile { get; }
