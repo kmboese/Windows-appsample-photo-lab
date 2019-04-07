@@ -37,7 +37,7 @@
     <Page.Resources>
         <!--  Add the DataTemplate and style Setters here  -->
 
-        <DataTemplate x:Key="ImageGridView_DefaultItemTemplate">
+        <DataTemplate x:Key="ImageGridView_DefaultItemTemplate" x:DataType="local:ImageFileInfo">
             <Grid
                 Width="300"
                 Height="300"
@@ -50,43 +50,43 @@
 
                 <Image
                     x:Name="ItemImage"
-                    Source="Assets/StoreLogo.png"
+                    Source="{x:Bind ImageSource}"
                     Stretch="Uniform" />
 
                 <StackPanel Grid.Row="1" Orientation="Vertical">
-                    <!--  Image Info: title, file type, and dimensions  -->
+                    <!--  Image Name  -->
                     <TextBlock
                         HorizontalAlignment="Center"
                         Style="{StaticResource SubtitleTextBlockStyle}"
-                        Text="ImageTitle" />
+                        Text="{x:Bind ImageName}" />
                     <!--  StackPanel holding file type and image dimensions  -->
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <TextBlock
                             HorizontalAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="ImageFileType" />
+                            Text="{x:Bind ImageFileType}" />
                         <TextBlock
                             Margin="8,0,0,0"
                             HorizontalAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="ImageDimensions" />
+                            Text="{x:Bind ImageDimensions}" />
                     </StackPanel>
 
                     <!--> Star Rating via telerikInput package </-->
-                    <telerikInput:RadRating IsReadOnly="True" Value="3">
+                    <telerikInput:RadRating IsReadOnly="True" Value="{x:Bind ImageRating}">
                         <!--  Filled star symbol  -->
                         <telerikInput:RadRating.FilledIconContentTemplate>
                             <DataTemplate>
-                                <SymbolIcon Foreground="White" Symbol="SolidStar" />
+                                <SymbolIcon Foreground="Black" Symbol="SolidStar" />
                             </DataTemplate>
                         </telerikInput:RadRating.FilledIconContentTemplate>
 
                         <!--  Empty star symbol  -->
-                        <telerikInput:RadRating.EmptyIconContent>
+                        <telerikInput:RadRating.EmptyIconContentTemplate>
                             <DataTemplate>
                                 <SymbolIcon Foreground="White" Symbol="OutlineStar" />
                             </DataTemplate>
-                        </telerikInput:RadRating.EmptyIconContent>
+                        </telerikInput:RadRating.EmptyIconContentTemplate>
                     </telerikInput:RadRating>
 
                 </StackPanel>
