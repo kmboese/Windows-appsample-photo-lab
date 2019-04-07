@@ -82,16 +82,20 @@ namespace PhotoLab
                 // Limit to only png or jpg files.
                 if (file.ContentType == "image/png" || file.ContentType == "image/jpeg")
                 {
-                    //Images.Add(await LoadImageInfo(file));
-                    Images.Add(await LoadImageInfo(file));
+                    ImageFileInfo image = await LoadImageInfo(file);
+                    if (!Images.Contains(image))
+                    {
+                        Images.Add(image);
+                    }
                 }
             }
 
             // Populate the new ImageGridView with the loaded images
-            ImageGridView.ItemsSource = Images;
+            // Replaced with XAMl binding:
+            // ImageGridView.ItemsSource = Images;
         }
 
-       public async static Task<ImageFileInfo> LoadImageInfo(StorageFile file)
+        public async static Task<ImageFileInfo> LoadImageInfo(StorageFile file)
         {
             // Open a stream for the selected file.
             // The 'using' block ensures the stream is disposed
@@ -107,7 +111,7 @@ namespace PhotoLab
                     properties, file, bitmapImage,
                     file.DisplayName, file.DisplayType);
 
-                return info; 
+                return info;
             }
         }
 
@@ -129,5 +133,62 @@ namespace PhotoLab
         {
 
         }
+
+        // My added functions
+
+        private void MoveImageForward()
+        {
+            Nullable<Int32> index = ImageGridView.SelectedIndex as Nullable<Int32>;
+
+            // Do nothing if no image is selected
+            if (index == -1 || index == null)
+            {
+                return;
+            }
+
+            if (index == (Images.Count -1))
+            {
+                Images.Move((Int32)index, 0);
+            }
+            else
+            {
+                Images.Move((Int32)index, (Int32)index + 1);
+            }
+        }
+
+        private void MoveImageBack()
+        {
+            Nullable<Int32> index = ImageGridView.SelectedIndex as Nullable<Int32>;
+
+            // Do nothing if no image is selected
+            if (index == -1 || index == null)
+            {
+                return;
+            }
+
+            if (index == 0)
+            {
+                Images.Move((Int32)index, Images.Count-1);
+            }
+            else
+            {
+                Images.Move((Int32)index, (Int32)index - 1);
+            }
+        }
+
+
+        private void DeletedSelectedImage() =>
+            Images.Remove(ImageGridView.SelectedItem as ImageFileInfo);
+
+
+        private void DeleteAllImages() =>
+            Images.Clear();
+
+        private async void ReadImages() {
+            Images.Clear();
+            await GetItemsAsync();
+
+        }
+
     }
 }
