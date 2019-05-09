@@ -57,7 +57,7 @@ namespace PhotoLab
                 AppViewBackButtonVisibility.Collapsed;
 
             // Remove this when replaced with XAML bindings
-            ImageGridView.ItemsSource = Images;
+            // ImageGridView.ItemsSource = Images;
 
             if (Images.Count == 0)
             {
@@ -104,7 +104,7 @@ namespace PhotoLab
             }
         }
 
-       public async static Task<ImageFileInfo> LoadImageInfo(StorageFile file)
+        public async static Task<ImageFileInfo> LoadImageInfo(StorageFile file)
         {
             // Open a stream for the selected file.
             // The 'using' block ensures the stream is disposed
@@ -123,6 +123,10 @@ namespace PhotoLab
                 return info; 
             }
         }
-        
+
+        // Temp method to show UI updates bindings when Images collection changes.
+        // Removes the currently selected image in the ImageGridView from the Images collection.
+        private void DeleteSelectedImage() =>
+            Images.Remove(ImageGridView.SelectedItem as ImageFileInfo);
     }
 }
