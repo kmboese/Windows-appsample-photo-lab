@@ -97,11 +97,6 @@
                             HorizontalAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{x:Bind ImageDimensions}" />
-                        <TextBlock
-                            Margin="8,0,0,0"
-                            HorizontalAlignment="Center"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind ImageSource}" />
                     </StackPanel>
                     <telerikInput:RadRating IsReadOnly="True" Value="{x:Bind ImageRating}">
                         <telerikInput:RadRating.FilledIconContentTemplate>
@@ -143,6 +138,10 @@
                 Flyout="{StaticResource zoomFlyout}"
                 Icon="Zoom"
                 Label="Zoom" />
+            <AppBarButton
+                Click="{x:Bind DeleteSelectedImage}"
+                Icon="Delete"
+                Label="Delete selected image" />
         </CommandBar>
 
         <GridView
@@ -153,6 +152,7 @@
             ItemContainerStyle="{StaticResource ImageGridView_DefaultItemContainerStyle}"
             ItemTemplate="{StaticResource ImageGridView_DefaultItemTemplate}"
             ItemsPanel="{StaticResource ImageGridView_ItemsPanelTemplate}"
+            ItemsSource="{x:Bind Images}"
             Loaded="{x:Bind StartConnectedAnimationForBackNavigation}"
             RelativePanel.AlignLeftWithPanel="True"
             RelativePanel.AlignRightWithPanel="True"
